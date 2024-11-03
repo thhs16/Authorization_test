@@ -27,6 +27,14 @@ Route::middleware('auth')->group(function () {
     Route::get('user/dashboard',function(){
         return view('userHomePage');
     })->name('userHomePg');
+
+    Route::get('admin/Process', function(){
+        dd("admin acc process is running");
+    })->name('adminProcess');
+
+    Route::get('user/Process', function(){
+        dd("user acc process is running");
+    })->name('userProcess');
 });
 
 require __DIR__.'/auth.php';
