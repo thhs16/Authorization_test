@@ -30,11 +30,29 @@ Route::middleware('auth')->group(function () {
 
     Route::get('admin/Process', function(){
         dd("admin acc process is running");
-    })->name('adminProcess');
+    })->name('adminProcess')->middleware('admin');
 
     Route::get('user/Process', function(){
         dd("user acc process is running");
-    })->name('userProcess');
+    })->name('userProcess')->middleware('user');
+
+    Route::group(['middleware' => 'admin'], function(){
+        Route::get('admin/Process', function(){
+            dd("admin acc process is running");
+        })->name('adminProcess');
+    });
+
+    Route::group(['middleware' => 'user', 'prefix' => 'user'], function(){ // includes prefix
+        Route::get('Process', function(){ // URI: user/Process
+            dd("user acc process is running");
+        })->name('adminProcess');
+
+        Route::get('fakeUserRoute', function(){
+            dd("user fake route");
+        })->name('userfakeR');
+    });
+
+
 });
 
 require __DIR__.'/auth.php';

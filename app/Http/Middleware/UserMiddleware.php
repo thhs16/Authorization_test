@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserMiddleware
@@ -15,6 +16,12 @@ class UserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if (Auth::user()->role == 'user'){
+            return $next($request);
+        }
+
+        // abort(404);
+        // dd('You are not user acc. Change into a user account to continue.');
+        return back(); // going back to your previous route // ERR_TOO_MANY_REDIRECTS (Now is error)
     }
 }
